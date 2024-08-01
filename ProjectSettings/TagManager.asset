@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 3091473383
+    locked: 0
+  - name: Mountains&Sky
+    uniqueID: 2524979623
+    locked: 0
+  - name: Front items
+    uniqueID: 1534771793
+    locked: 0
+  - name: Players&Npc
+    uniqueID: 596862343
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
