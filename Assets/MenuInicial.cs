@@ -31,5 +31,8 @@ public class MenuInicial : MonoBehaviour
    public void volver(){
       SceneManager.LoadScene("MenuScene");
    }
+   public void nivel1(){
+      SceneManager.LoadScene("Intro Cinematic");
+   }
 }
 
