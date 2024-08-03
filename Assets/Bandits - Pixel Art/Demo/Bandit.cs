@@ -7,6 +7,8 @@ public class Bandit : MonoBehaviour {
     [SerializeField] float      m_jumpForce = 7.5f;
     [SerializeField] float      life = 100f;  
     [SerializeField] float      attackRange = 1.0f;  
+    private float attackCooldown = 1.5f; // Tiempo en segundos entre ataques
+    private float lastAttackTime;
 
     private Animator            m_animator;
     private Rigidbody2D         m_body2d;
@@ -19,6 +21,10 @@ public class Bandit : MonoBehaviour {
     public float detectionRadious = 5.0f;
     private Rigidbody2D rb;
     private Vector2 movement;
+
+    public int health;
+
+    public int daño_b;
 
     // Use this for initialization
     void Start () {
@@ -42,6 +48,11 @@ public class Bandit : MonoBehaviour {
             m_animator.SetBool("Grounded", m_grounded);
         }
 
+        if (health <= 0) {
+            m_animator.SetTrigger("Death");
+            m_isDead = true;
+            Destroy(gameObject);
+        }
         // -- Handle input and movement --
         /*
         float inputX = Input.GetAxis("Horizontal");
@@ -111,9 +122,16 @@ public class Bandit : MonoBehaviour {
             movement = new Vector2(direction.x, 0);
 
         if (distantToPlayer <= attackRange) {
-            // Atacar
-            m_animator.SetTrigger("Attack");
-            movement = Vector2.zero; // Detener el movimiento al atacar
+        // Iniciar el ataque y detener el movimiento
+        if (Time.time >= lastAttackTime + attackCooldown) {
+            AttackPlayer();
+            lastAttackTime = Time.time;
+        }
+
+        // Detener el movimiento durante el ataque
+        movement = Vector2.zero;
+
+
         } else {
             // Mover hacia el jugador
             m_animator.SetInteger("AnimState", 2);
@@ -121,16 +139,25 @@ public class Bandit : MonoBehaviour {
         }
 
             // Swap direction of sprite depending on walk direction
-            if (movement.x > 0)
-                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-            else if (movement.x < 0)
-                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        if (movement.x > 0)
+            transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+        else if (movement.x < 0)
+            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }else{
             movement = Vector2.zero;
             m_animator.SetInteger("AnimState", 0);
 
         }
 
-        rb.MovePosition(rb.position + movement * m_speed * Time.deltaTime);
+    }
+
+    public void TakeDamage(int damage){
+        health -= damage;
+        m_animator.SetTrigger("Hurt");
+    }
+
+    public void AttackPlayer(){
+        m_animator.SetTrigger("Attack");
+        player.GetComponent<HeroKnight>().TakeDamage(daño_b);
     }
 }
